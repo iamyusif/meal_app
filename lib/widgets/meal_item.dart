@@ -5,9 +5,10 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:meels_app/data/dummy_data.dart';
 
 class MealItem extends StatelessWidget {
-  const MealItem({super.key, required this.meal});
+  const MealItem({super.key, required this.meal, required this.onMealSelected});
 
   final Meal meal;
+  final void Function(BuildContext context, Meal meal) onMealSelected;
 
   String get complexityText {
     // donusturduk asagidaki row-daki textler enum oldugu ucun
@@ -30,7 +31,9 @@ class MealItem extends StatelessWidget {
         clipBehavior: Clip.hardEdge,
         elevation: 4,
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            onMealSelected(context, meal);
+          },
           child: Stack(
             children: [
               FadeInImage(
