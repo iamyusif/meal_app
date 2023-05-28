@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:meels_app/screens/filters.dart';
 import 'package:meels_app/screens/meals.dart';
+import 'package:meels_app/widgets/main_drawer.dart';
 
 import '../models/meal.dart';
 import 'categories.dart';
@@ -49,21 +51,34 @@ class _TabsScreenState extends State<TabsScreen> {
     });
   }
 
+  void _setScreenFilter(String identifier) async {
+    Navigator.of(context).pop();
+    if (identifier == "filters") {
+      final resultFilter = await Navigator.of(context)
+          .push<Map<FilterOptions,bool>>(
+              MaterialPageRoute(builder: (ctx) => const FilterScreen())
+      );
+      print(resultFilter);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    Widget activePage =  CategoriesScreen(
+    Widget activePage = CategoriesScreen(
       onToggleFavorite: _toogleMealFavorite,
     );
     var activePageTitle = "Categories";
 
     if (_selectedPageIndex == 1) {
-      activePage = MealsScreen(meals: _favoriteMeals, onToggleFavorite: _toogleMealFavorite);
+      activePage = MealsScreen(
+          meals: _favoriteMeals, onToggleFavorite: _toogleMealFavorite);
       activePageTitle = "Favorites";
     }
     return Scaffold(
       appBar: AppBar(
         title: Text(activePageTitle),
       ),
+      drawer: MainDrawer(onSelectScreen: _setScreenFilter),
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectPage,
