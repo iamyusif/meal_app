@@ -6,12 +6,12 @@ import '../widgets/category_grid_item.dart';
 import '../models/category.dart';
 
 class CategoriesScreen extends StatelessWidget {
-  const CategoriesScreen({super.key, required this.onToggleFavorite});
-  final void Function(Meal meal) onToggleFavorite;
+  const CategoriesScreen({super.key, required this.availableMeals});
+  final List<Meal> availableMeals;
 
 
   void _selectedCategory(BuildContext context, Category category) {
-    final filteredMeals = dummyMeals.where((meal) {
+    final filteredMeals = availableMeals.where((meal) {
       return meal.categories.contains(category.id);
     }).toList(); // bu kategorye gore yemekleri filtrelemek ve listeye cevirmekdi
 
@@ -20,7 +20,6 @@ class CategoriesScreen extends StatelessWidget {
         builder: (ctx) => MealsScreen(
           title: category.title,
           meals: filteredMeals,
-          onToggleFavorite: onToggleFavorite,
         ),
       ),
     );
